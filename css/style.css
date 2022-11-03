@@ -1,0 +1,113 @@
+:root {
+    --header-chat: #eaeaea;
+    --celeste: #8edafc;
+    --white: #ffffff;
+    --gray: rgb(112, 112, 112);
+    --input: #e9ebec;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.text-gray {
+    color: var(--gray);
+}
+
+.wrapper {
+    background: linear-gradient(180deg, rgb(21, 124, 119) 15%, rgb(200, 200, 200) 15%);
+    overflow: hidden;
+}
+
+.whatsapp {
+    height: 90%;
+    background-color: white;
+    border: 1px solid rgb(61, 25, 128);
+    box-shadow: 0 0 20px 5px rgba(111, 143, 135, 0.5);
+}
+
+.contatti {
+    border-right: 1px solid rgb(180, 180, 180);
+    height: 100%;
+    background-color: var(--input);
+}
+
+.header-contatti {
+    width: 100%;
+    height: 70px;
+    background-color: var(--header-chat);
+}
+
+.img-profilo {
+    height: 50px;
+    border-radius: 50%;
+}
+
+.icons {
+    color: rgb(165, 165, 165);
+    font-size: 18px;  
+}
+
+.notifiche {
+    background-color: var(--celeste);
+    height: 70px;
+}
+
+.fa-bell-slash {
+    color: var(--celeste);
+    width: 45px;
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    border-radius: 50%;
+    background-color: var(--white);
+}
+
+.text-notifiche a {
+    color: var(--gray);
+    font-size: 13px;
+}
+
+.input-contatti {
+    height: 35px;
+    border: 1px solid var(--input);
+    background-color: var(--white);
+}
+
+input {
+    border: none;
+    outline: none;
+}
+
+.icon-search {
+    border-right: 1px solid var(--input);
+}
+
+.cerca {
+    width: calc(100% - 40px);
+    padding: 3px;
+}
+
+.body-contatti {
+    height: calc(100% - 191px);
+    overflow-y: auto;
+    background-color: var(--white);
+}
+
+.body-contatti div {
+    cursor: pointer;
+}
+
+.body-contatti img {
+    height: 60px;
+    border-radius: 50%;
+}
+
+.active {
+    background-color: #cdcfcf;
+}
+
+.info-contatti {
+    display: flex;
+    justify-content: space-between;
+}

@@ -6,12 +6,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/vue@3.2.41/dist/vue.global.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="./css/style.css">
     <title>Vue - Boolzap</title>
 </head>
 <body>
 
+<div id="app" class="vh-100 wrapper d-flex align-items-center">
 
+    <div class="container p-0 whatsapp">
+            <div class="col-5 contatti overflow-hidden">
+                <div class="header-contatti px-2 d-flex justify-content-between align-items-center">
+                    <div>
+                        <img src="./img/avatar_io.jpg" alt="Immagine Profilo" class="img-profilo">
+                        <span class="fw-bold">Sofia</span>
+                    </div>
+                    <div class="icons">
+                        <i class="px-2 fas fa-circle-notch"></i>
+                        <i class="px-2 fas fa-comment-alt"></i>
+                        <i class="px-2 fas fa-ellipsis-v"></i>
+                    </div>
+                </div>
+                <div class="notifiche px-3 d-flex align-items-center">
+                    <i class="fa-solid fa-bell-slash fs-5"></i>
+                    <div class="d-flex flex-column text-notifiche">
+                        <span class="ms-3">Ricevi notifiche di nuovi messaggi</span>
+                        <a href="" class="ms-3">Attiva notifiche desktop</a>
+                    </div>
+                </div>
+                <div class="input-contatti d-flex m-2">
+                    <div class="d-flex">
+                        <div class="icon-search d-flex">
+                            <i class="align-self-center px-4 icons fas fa-search"></i>
+                        </div>
+                        <input type="text" class="cerca">
+                    </div>
+                </div>
+                <div class="body-contatti">
+                    <div class="d-flex p-2 ps-4 border-top" :class="{'active': index === chatCorrente}" v-for="(item, index) in contacts" :key="item.id" @click="sceltaChat(index)">
+                        <div class="me-3">
+                            <img :src="'./img/avatar' + item.avatar + '.jpg'" :alt="item.name">
+                        </div>
+                        <div class="w-100">
+                            <div class="info-contatti">
+                                <span>{{item.name}}</span>
+                                <span>{{item.messages[item.messages.length - 1].date}}</span>
+                            </div>
+                            <span class="text-gray"><small>{{item.messages[item.messages.length - 1].message}}</small></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-7 chat">
+
+            </div>
+    </div>
+
+</div>
 
 
 <script src="./js/script.js">
