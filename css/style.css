@@ -50,7 +50,11 @@ body {
 .icons {
     color: rgb(165, 165, 165);
     font-size: 20px; 
-    cursor: pointer; 
+}
+
+i:hover {
+    color: #419388;
+    cursor: pointer;
 }
 
 /* ! CSS della sezione delle notifiche */
@@ -152,6 +156,16 @@ input {
   border-radius: 12px;
   min-width: 300px;
   max-width: 300px;
+}
+
+/* ! CSS della modale delle info e cancella messaggio */
+.box-modale {
+    position: absolute;
+    background-color: #fff;
+    top: 35px;
+    right: 10px;
+    z-index: 1000;
+    box-shadow: 0 0 20px 5px rgba(111, 143, 135, 0.5);
 }
 
 /* ! CSS dell'input per mandare un messaggio */

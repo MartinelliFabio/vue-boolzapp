@@ -41,6 +41,10 @@ const app = createApp({
             chatCorrente: 0, // index che indica la chat corrente
             newMessage: '', // 
             searchContactsText: '',
+            messaggioEl:{
+                index: null,
+                show: false,
+            },
             answerRandom: ['tutto bene', 'mi piace come idea!', 'alle 21 va bene?', 'non mi sento tanto bene...', 'spegni e riaccendi, funziona sempre!'], // Array con le frasi per le risposte random
             contacts: [
                 {
@@ -245,6 +249,7 @@ const app = createApp({
                 };
                 this.contacts[this.chatCorrente].messages.push(newSentMessage);
                 this.contacts[this.chatCorrente].newMessage = '';
+
                 this.$nextTick(()=> {
                     const el =  this.$refs.msg[this.$refs.msg.length - 1 ];
                     el.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
@@ -266,24 +271,47 @@ const app = createApp({
                 status: 'received'
             }
             this.contacts[this.chatCorrente].messages.push(newReceivedMessage);
+
             this.$nextTick(()=> {
                 const el =  this.$refs.msg[this.$refs.msg.length - 1 ];
                 el.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             });
+
             }, 1000)
         },
-        // Metodo per visualizzare l'ultimo messaggio
+        // Metodo per visualizzare l'ultimo messaggio e data
         getLastMessage(item) {
-            const msg = item.messages.filter((message) => {
-                return message.status === 'received';
-            })
+            const msg = item.messages.filter((element) => element.status === 'received');
+                if(msg.length == 0) {
+                    return {
+                        date: '01/01/2022 00:00:00',
+                        message: '',
+                        status: 'received',
+
+                    }
+                }
             // console.log(msg);
             return msg[msg.length - 1];
         },
         // Metodo per visualizzate l'ultima data del messaggio
-        getLastAccess(index) {  
-            let lastMess= this.contacts[index].messages.length -1;
-            return this.contacts[index].messages[lastMess].date;
+        // getLastAccess(index) {  
+        //     let lastMess= this.contacts[index].messages.length -1;
+        //     return this.contacts[index].messages[lastMess].date;
+        // },
+        // Metodo per cancellare il messaggio al click
+        deleteMessaggio(i) {
+            this.contacts[this.chatCorrente].messages.splice(i, 1);
+            this.messaggioEl.show = false;
+        },
+        // Metodo per aprire il modal delle opzioni
+        openModal(i) {
+            if(i === this.messaggioEl.index && this.messaggioEl.show) {
+                this.messaggioEl.index = null;
+                this.messaggioEl.show = false;
+            } else {
+                this.messaggioEl.index = i;
+                this.messaggioEl.show = true;
+            }
         },
     }
 }).mount('#app');
