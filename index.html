@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/vue@3.2.41/dist/vue.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.1.0/build/global/luxon.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="./css/style.css">
@@ -15,52 +16,86 @@
 
 <div id="app" class="vh-100 wrapper d-flex align-items-center">
 
-    <div class="container p-0 whatsapp">
-            <div class="col-5 contatti overflow-hidden">
-                <div class="header-contatti px-2 d-flex justify-content-between align-items-center">
-                    <div>
-                        <img src="./img/avatar_io.jpg" alt="Immagine Profilo" class="img-profilo">
-                        <span class="fw-bold">Sofia</span>
-                    </div>
-                    <div class="icons">
-                        <i class="px-2 fas fa-circle-notch"></i>
-                        <i class="px-2 fas fa-comment-alt"></i>
-                        <i class="px-2 fas fa-ellipsis-v"></i>
-                    </div>
+    <div class="container p-0 whatsapp d-flex">
+        <!-- Sezione Profilo e Contatti -->
+        <div class="col-5 contatti overflow-hidden">
+            <!-- div header con l'immagine del profilo, il nome e le icone -->
+            <div class="header-contatti px-2 d-flex justify-content-between align-items-center">
+                <div>
+                    <img src="./img/avatar_io.jpg" alt="Immagine Profilo" class="img-profilo me-3">
+                    <span class="fw-bold">Sofia</span>
                 </div>
-                <div class="notifiche px-3 d-flex align-items-center">
-                    <i class="fa-solid fa-bell-slash fs-5"></i>
-                    <div class="d-flex flex-column text-notifiche">
-                        <span class="ms-3">Ricevi notifiche di nuovi messaggi</span>
-                        <a href="" class="ms-3">Attiva notifiche desktop</a>
-                    </div>
+                <div class="icons">
+                    <i class="px-2 fas fa-circle-notch"></i>
+                    <i class="px-2 fas fa-comment-alt"></i>
+                    <i class="px-2 fas fa-ellipsis-v"></i>
                 </div>
-                <div class="input-contatti d-flex m-2">
-                    <div class="d-flex">
-                        <div class="icon-search d-flex">
-                            <i class="align-self-center px-4 icons fas fa-search"></i>
-                        </div>
-                        <input type="text" class="cerca">
-                    </div>
+            </div>
+            <!-- div della sezione notifica -->
+            <div class="notifiche px-3 d-flex align-items-center">
+                <i class="fa-solid fa-bell-slash fs-5"></i>
+                <div class="d-flex flex-column text-notifiche">
+                    <span class="ms-3">Ricevi notifiche di nuovi messaggi</span>
+                    <a href="" class="ms-3">Attiva notifiche desktop</a>
                 </div>
-                <div class="body-contatti">
-                    <div class="d-flex p-2 ps-4 border-top" :class="{'active': index === chatCorrente}" v-for="(item, index) in contacts" :key="item.id" @click="sceltaChat(index)">
-                        <div class="me-3">
-                            <img :src="'./img/avatar' + item.avatar + '.jpg'" :alt="item.name">
+            </div>
+            <!-- div della sezione dell'input per cercare i contatti -->
+            <div class="input-contatti d-flex m-2">
+                <div class="d-flex">
+                    <div class="icon-search d-flex">
+                        <i class="align-self-center px-4 icons fas fa-search"></i>
+                    </div>
+                    <input type="text" class="cerca" v-model="searchContactsText" placeholder="Cerca o inizia una nuova chat">
+                </div>
+            </div>
+            <!-- div del body dei contatti con tutte le chat -->
+            <div class="body-contatti">
+                <div class="d-flex p-2 ps-4 border-top" v-for="(item, index) in filteredContacts" :key="item.id" @click="sceltaChat(item.id)" :class="{'active': item.id === chatCorrente}">
+                    <div class="me-3">
+                        <img :src="'./img/avatar' + item.avatar + '.jpg'" :alt="item.name" class="img-profilo">
+                    </div>
+                    <div class="w-100">
+                        <div class="info-contatti">
+                            <span>{{item.name}}</span>
+                            <span>{{item.messages[item.messages.length - 1].date}}</span>
                         </div>
-                        <div class="w-100">
-                            <div class="info-contatti">
-                                <span>{{item.name}}</span>
-                                <span>{{item.messages[item.messages.length - 1].date}}</span>
-                            </div>
-                            <span class="text-gray"><small>{{item.messages[item.messages.length - 1].message}}</small></span>
-                        </div>
+                        <span class="text-gray"><small>{{getLastMessage(item).message}}</small></span>
                     </div>
                 </div>
             </div>
-            <div class="col-7 chat">
-
+        </div>
+        <!-- sezione della chat corrispondente -->
+        <div class="col-7 chat">
+            <div class="header-contatti px-2 d-flex justify-content-between align-items-center">
+                <div class="d-flex">
+                    <img :src="'./img/avatar' + contacts[chatCorrente].avatar + '.jpg'" :alt="contacts[chatCorrente].name" class="img-profilo me-3">
+                    <div class="d-flex flex-column">
+                        <span>{{contacts[chatCorrente].name}}</span>
+                        <span class="text-gray"><small>Ultimo accesso {{getLastAccess(chatCorrente)}}</small></span>
+                    </div>
+                </div>
+                <div class="icons">
+                    <i class="px-2 fas fa-search"></i>
+                    <i class="px-2 fa-solid fa-paperclip"></i>
+                    <i class="px-2 fas fa-ellipsis-v"></i>
+                </div>
             </div>
+            <div class="chat-bg overflow-auto">
+                <div v-for="(item, index) in contacts[chatCorrente].messages" :key="item.id" class="message-container">
+                    <div class="message mx-5 my-3 py-2 px-3" :class="item.status">
+                        <span>{{item.message}}</span>
+                        <div class="text-end"><small>{{(item.date)}}</small></div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="input-chat d-flex align-items-center justify-content-between icons">
+                <i class="fa-regular fa-face-smile fs-4 p-4"></i>
+                <input type="text" v-model="contacts[chatCorrente].newMessage" @keyup.enter="sendNewMessage(chatCorrente)" class="w-100 rounded" placeholder="Scrivi un messaggio">
+                <i class="fa-solid fa-paper-plane fs-4 p-3"></i>
+                <i class="fa-solid fa-microphone fs-4 p-3"></i>
+            </div>
+        </div>
     </div>
 
 </div>

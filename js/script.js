@@ -26,15 +26,20 @@
     permette di cancellare il messaggio selezionato
     ● Visualizzazione ora e ultimo messaggio inviato/ricevuto nella lista dei contatti
 --------------------------------------------------------------------------------------------------- */
+const DateTime = luxon.DateTime;
+
+const FORMATO_ORA = "HH:mm";
 const {createApp} = Vue;
 
 const app = createApp({
     data() {
         return {
             chatCorrente: 0,
+            newMessage: '',
+            searchContactsText: '',
             contacts: [
                 {
-                    id: 1,
+                    id: 0,
                     name: 'Michele',
                     avatar: '_1',
                     visible: true,
@@ -57,7 +62,7 @@ const app = createApp({
                     ],
                 },
                 {
-                    id: 2,
+                    id: 1,
                     name: 'Fabio',
                     avatar: '_2',
                     visible: true,
@@ -80,7 +85,7 @@ const app = createApp({
                     ],
                 },
                 {
-                    id: 3,
+                    id: 2,
                     name: 'Samuele',
                     avatar: '_3',
                     visible: true,
@@ -103,7 +108,7 @@ const app = createApp({
                     ],
                 },
                 {
-                    id: 4,
+                    id: 3,
                     name: 'Alessandro B.',
                     avatar: '_4',
                     visible: true,
@@ -121,7 +126,7 @@ const app = createApp({
                     ],
                 },
                 {
-                    id: 5,
+                    id: 4,
                     name: 'Alessandro L.',
                     avatar: '_5',
                     visible: true,
@@ -139,7 +144,7 @@ const app = createApp({
                     ],
                 },
                     {
-                    id: 6,
+                    id: 5,
                     name: 'Claudia',
                     avatar: '_6',
                     visible: true,
@@ -162,7 +167,7 @@ const app = createApp({
                     ],
                 },
                 {
-                    id: 7,
+                    id: 6,
                     name: 'Federico',
                     avatar: '_7',
                     visible: true,
@@ -180,7 +185,7 @@ const app = createApp({
                     ],
                 },
                 {
-                    id: 8,
+                    id: 7,
                     name: 'Davide',
                     avatar: '_8',
                     visible: true,
@@ -205,9 +210,60 @@ const app = createApp({
             ]
         }
     },
-    methods: {
-        sceltaChat: function(index) {
-            this.chatCorrente = index
+    computed: {
+        filteredContacts() {
+            return this.contacts.filter((item) => {
+                const name = item.name.toLowerCase();
+                console.log(name);
+                return name.includes(this.searchContactsText.toLowerCase());
+            })
         }
+    },
+    methods: {
+        sceltaChat(id) {
+            const index = this.contacts.findIndex((item)=> item.id == id);
+            this.chatCorrente = index;
+        },
+        sendNewMessage() {
+            const newMessage = this.contacts[this.chatCorrente].newMessage;
+            if(!!newMessage.length){
+                let newDate = DateTime.now()
+                    .setLocale("it")
+                    .toFormat(FORMATO_ORA);
+                const newSentMessage = {
+                    date: newDate,
+                    message: newMessage,
+                    status: 'sent'
+                };
+                this.contacts[this.chatCorrente].messages.push(newSentMessage);
+                this.contacts[this.chatCorrente].newMessage = '';
+                this.answered();
+            }
+        },
+        answered(){
+            setTimeout(()=>{
+                let newDate = DateTime.now()
+                    .setLocale("it")
+                    .toFormat(FORMATO_ORA);
+            const newReceivedMessage = {
+                date: newDate,
+                message: 'Ok',
+                status: 'received'
+            }
+            this.contacts[this.chatCorrente].messages.push(newReceivedMessage);
+            }, 1000)
+        },
+        getLastMessage(item) {
+            const msg = item.messages.filter((message) => {
+                return message.status === 'received';
+            })
+            // console.log(msg);
+            return msg[msg.length - 1];
+        },
+        getLastAccess(index) {  
+            let lastMess= this.contacts[index].messages.length -1;
+            return this.contacts[index].messages[lastMess].date;
+        },
+        
     }
 }).mount('#app');

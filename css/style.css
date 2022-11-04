@@ -1,5 +1,5 @@
 :root {
-    --header-chat: #eaeaea;
+    --header-chat: #f3eeea;
     --celeste: #8edafc;
     --white: #ffffff;
     --gray: rgb(112, 112, 112);
@@ -45,7 +45,8 @@ body {
 
 .icons {
     color: rgb(165, 165, 165);
-    font-size: 18px;  
+    font-size: 20px; 
+    cursor: pointer; 
 }
 
 .notifiche {
@@ -84,8 +85,12 @@ input {
 }
 
 .cerca {
-    width: calc(100% - 40px);
+    width: 400px;
     padding: 3px;
+}
+
+.cerca::placeholder {
+    font-size: 15px;
 }
 
 .body-contatti {
@@ -98,11 +103,6 @@ input {
     cursor: pointer;
 }
 
-.body-contatti img {
-    height: 60px;
-    border-radius: 50%;
-}
-
 .active {
     background-color: #cdcfcf;
 }
@@ -110,4 +110,52 @@ input {
 .info-contatti {
     display: flex;
     justify-content: space-between;
+}
+
+.chat-bg {
+    background: url('../img/mine.jpg') repeat 50% 50%;
+    height: calc(100% - 140px);
+}
+
+.message-container::after{
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.message {
+    position: relative;
+}
+
+.sent {
+    background-color: #dcf8c0;
+    float: right;
+}
+
+.received {
+    background-color: #fff;
+    float: left;
+}
+
+.sent,
+.received {
+  border-radius: 12px;
+  min-width: 300px;
+  max-width: 300px;
+}
+
+.input-chat {
+    height: 70px;
+    background-color: var(--header-chat);
+}
+
+.input-chat input {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    font-size: 16px;
+}
+
+.input-chat input::placeholder {
+    font-size: 15px;
 }
