@@ -26,17 +26,22 @@
     permette di cancellare il messaggio selezionato
     ● Visualizzazione ora e ultimo messaggio inviato/ricevuto nella lista dei contatti
 --------------------------------------------------------------------------------------------------- */
+
+// Creo la constante con la libreria luxon per la modifica della data
 const DateTime = luxon.DateTime;
 
+// Creo la constante FORMATO_ORA per formattare la data in HH:mm(ore:minuti)
 const FORMATO_ORA = "HH:mm";
+
 const {createApp} = Vue;
 
 const app = createApp({
     data() {
         return {
-            chatCorrente: 0,
-            newMessage: '',
+            chatCorrente: 0, // index che indica la chat corrente
+            newMessage: '', // 
             searchContactsText: '',
+            answerRandom: ['tutto bene', 'mi piace come idea!', 'alle 21 va bene?', 'non mi sento tanto bene...', 'spegni e riaccendi, funziona sempre!'], // Array con le frasi per le risposte random
             contacts: [
                 {
                     id: 0,
@@ -211,6 +216,7 @@ const app = createApp({
         }
     },
     computed: {
+        // Funzione per filtrare i contatti con l'input
         filteredContacts() {
             return this.contacts.filter((item) => {
                 const name = item.name.toLowerCase();
@@ -220,10 +226,12 @@ const app = createApp({
         }
     },
     methods: {
+        // Metodo che al click dell'utente sul contatto, visualizza la chat corrispondente 
         sceltaChat(id) {
             const index = this.contacts.findIndex((item)=> item.id == id);
             this.chatCorrente = index;
         },
+        // Metodo per mandare un messaggio attraverso l'input della chat
         sendNewMessage() {
             const newMessage = this.contacts[this.chatCorrente].newMessage;
             if(!!newMessage.length){
@@ -240,19 +248,23 @@ const app = createApp({
                 this.answered();
             }
         },
+        // Metodo per la risposta casuale da parte del computer
         answered(){
             setTimeout(()=>{
+            indexRandomMessage = Math.floor(Math.random() * this.answerRandom.length);
+            randomMessage = this.answerRandom[indexRandomMessage];
                 let newDate = DateTime.now()
                     .setLocale("it")
                     .toFormat(FORMATO_ORA);
             const newReceivedMessage = {
                 date: newDate,
-                message: 'Ok',
+                message: randomMessage,
                 status: 'received'
             }
             this.contacts[this.chatCorrente].messages.push(newReceivedMessage);
             }, 1000)
         },
+        // Metodo per visualizzare l'ultimo messaggio
         getLastMessage(item) {
             const msg = item.messages.filter((message) => {
                 return message.status === 'received';
@@ -260,6 +272,7 @@ const app = createApp({
             // console.log(msg);
             return msg[msg.length - 1];
         },
+        // Metodo per visualizzate l'ultima data del messaggio
         getLastAccess(index) {  
             let lastMess= this.contacts[index].messages.length -1;
             return this.contacts[index].messages[lastMess].date;
