@@ -83,8 +83,8 @@
             </div>
             <!-- Sezione Main della chat -->
             <div class="chat-bg overflow-auto">
-                <div v-for="(item, index) in contacts[chatCorrente].messages" :key="item.id" class="message-container">
-                    <div class="mx-5 my-3 py-2 px-3" :class="item.status">
+                <div v-for="(item, index) in contacts[chatCorrente].messages" :key="item.id" class="message-container" ref="msg">
+                    <div class="message mx-5 my-3 py-2 px-3" :class="item.status">
                         <span>{{item.message}}</span>
                         <div class="text-end"><small>{{(item.date)}}</small></div>
                     </div>

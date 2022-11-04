@@ -245,6 +245,10 @@ const app = createApp({
                 };
                 this.contacts[this.chatCorrente].messages.push(newSentMessage);
                 this.contacts[this.chatCorrente].newMessage = '';
+                this.$nextTick(()=> {
+                    const el =  this.$refs.msg[this.$refs.msg.length - 1 ];
+                    el.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+                });
                 this.answered();
             }
         },
@@ -262,6 +266,10 @@ const app = createApp({
                 status: 'received'
             }
             this.contacts[this.chatCorrente].messages.push(newReceivedMessage);
+            this.$nextTick(()=> {
+                const el =  this.$refs.msg[this.$refs.msg.length - 1 ];
+                el.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+            });
             }, 1000)
         },
         // Metodo per visualizzare l'ultimo messaggio
@@ -277,6 +285,5 @@ const app = createApp({
             let lastMess= this.contacts[index].messages.length -1;
             return this.contacts[index].messages[lastMess].date;
         },
-        
     }
 }).mount('#app');

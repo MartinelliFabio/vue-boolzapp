@@ -127,6 +127,16 @@ input {
 }
 
 /* ! CSS dei messaggi inviati(sent) e ricevuti(received) */
+.message-container::after{
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.message {
+    position: relative;
+}
+
 .sent {
     background-color: #dcf8c0;
     float: right;
