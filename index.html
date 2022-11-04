@@ -57,7 +57,7 @@
                     <div class="w-100">
                         <div class="info-contatti">
                             <span>{{item.name}}</span>
-                            <span>{{item.messages[item.messages.length - 1].date}}</span>
+                            <span class="text-gray">{{item.messages[item.messages.length - 1].date}}</span>
                         </div>
                         <span class="text-gray"><small>{{getLastMessage(item).message}}</small></span>
                     </div>
@@ -66,6 +66,7 @@
         </div>
         <!-- sezione della chat corrispondente -->
         <div class="col-7 chat">
+            <!-- Sezione Header della chat -->
             <div class="header-contatti px-2 d-flex justify-content-between align-items-center">
                 <div class="d-flex">
                     <img :src="'./img/avatar' + contacts[chatCorrente].avatar + '.jpg'" :alt="contacts[chatCorrente].name" class="img-profilo me-3">
@@ -80,15 +81,17 @@
                     <i class="px-2 fas fa-ellipsis-v"></i>
                 </div>
             </div>
+            <!-- Sezione Main della chat -->
             <div class="chat-bg overflow-auto">
                 <div v-for="(item, index) in contacts[chatCorrente].messages" :key="item.id" class="message-container">
-                    <div class="message mx-5 my-3 py-2 px-3" :class="item.status">
+                    <div class="mx-5 my-3 py-2 px-3" :class="item.status">
                         <span>{{item.message}}</span>
                         <div class="text-end"><small>{{(item.date)}}</small></div>
                     </div>
                     
                 </div>
             </div>
+            <!-- Sezione Footer con l'input della chat -->
             <div class="input-chat d-flex align-items-center justify-content-between icons">
                 <i class="fa-regular fa-face-smile fs-4 p-4"></i>
                 <input type="text" v-model="contacts[chatCorrente].newMessage" @keyup.enter="sendNewMessage(chatCorrente)" class="w-100 rounded" placeholder="Scrivi un messaggio">

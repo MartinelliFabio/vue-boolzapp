@@ -1,3 +1,4 @@
+/* ! Utility */
 :root {
     --header-chat: #f3eeea;
     --celeste: #8edafc;
@@ -14,24 +15,27 @@ body {
     color: var(--gray);
 }
 
+/* ! Classe per lo sfondo della pagina */
 .wrapper {
     background: linear-gradient(180deg, rgb(21, 124, 119) 15%, rgb(200, 200, 200) 15%);
     overflow: hidden;
 }
 
+/* ! Container della parte principole della lista dei contatti e la chat */
 .whatsapp {
     height: 90%;
     background-color: white;
-    border: 1px solid rgb(61, 25, 128);
     box-shadow: 0 0 20px 5px rgba(111, 143, 135, 0.5);
 }
 
+/* ! CSS della sezione dei contatti */
 .contatti {
     border-right: 1px solid rgb(180, 180, 180);
     height: 100%;
     background-color: var(--input);
 }
 
+/* ! CSS dell'header della sezioni contatti */
 .header-contatti {
     width: 100%;
     height: 70px;
@@ -49,6 +53,7 @@ body {
     cursor: pointer; 
 }
 
+/* ! CSS della sezione delle notifiche */
 .notifiche {
     background-color: var(--celeste);
     height: 70px;
@@ -69,6 +74,7 @@ body {
     font-size: 13px;
 }
 
+/* ! CSS della sezione input per la ricerca dei contatti */
 .input-contatti {
     height: 35px;
     border: 1px solid var(--input);
@@ -93,6 +99,7 @@ input {
     font-size: 15px;
 }
 
+/* ! CSS della sezione principale con la lista dei contatti */
 .body-contatti {
     height: calc(100% - 191px);
     overflow-y: auto;
@@ -112,21 +119,14 @@ input {
     justify-content: space-between;
 }
 
+/* ! CSS Sezione della chat  */
+/* ! Background della parte principale della chat */
 .chat-bg {
     background: url('../img/mine.jpg') repeat 50% 50%;
     height: calc(100% - 140px);
 }
 
-.message-container::after{
-    content: "";
-    clear: both;
-    display: table;
-}
-
-.message {
-    position: relative;
-}
-
+/* ! CSS dei messaggi inviati(sent) e ricevuti(received) */
 .sent {
     background-color: #dcf8c0;
     float: right;
@@ -144,6 +144,7 @@ input {
   max-width: 300px;
 }
 
+/* ! CSS dell'input per mandare un messaggio */
 .input-chat {
     height: 70px;
     background-color: var(--header-chat);
