@@ -118,6 +118,10 @@ input {
     background-color: #cdcfcf;
 }
 
+.body-contatti div:hover {
+    background-color: var(--input);
+}
+
 .info-contatti {
     display: flex;
     justify-content: space-between;
@@ -166,6 +170,7 @@ input {
     right: 10px;
     z-index: 1000;
     box-shadow: 0 0 20px 5px rgba(111, 143, 135, 0.5);
+    cursor: pointer;
 }
 
 /* ! CSS dell'input per mandare un messaggio */

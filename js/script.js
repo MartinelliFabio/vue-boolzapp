@@ -287,7 +287,6 @@ const app = createApp({
                         date: '01/01/2022 00:00:00',
                         message: '',
                         status: 'received',
-
                     }
                 }
             // console.log(msg);
