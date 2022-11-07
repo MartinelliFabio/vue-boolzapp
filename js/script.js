@@ -285,7 +285,7 @@ const app = createApp({
                 if(msg.length == 0) {
                     return {
                         date: '01/01/2022 00:00:00',
-                        message: '',
+                        message: 'Messaggio Eliminato',
                         status: 'received',
                     }
                 }
